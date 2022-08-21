@@ -3,6 +3,7 @@ package org.quarkus.entities;
 import org.quarkus.enums.AccountStatus;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Account {
     public Long accountNumber;
@@ -14,12 +15,11 @@ public class Account {
     public Account (){
     }
 
-    public Account(Long accountNumber, Long customerNumber, String customerName,BigDecimal balance, AccountStatus accountStatus) {
+    public Account(Long accountNumber, Long customerNumber, String customerName,BigDecimal balance) {
         this.accountNumber = accountNumber;
         this.customerNumber = customerNumber;
         this.customerName = customerName;
         this.balance = balance;
-        this.accountStatus = accountStatus;
     }
 
     public void markOverdrawn(){
@@ -61,5 +61,19 @@ public class Account {
 
     public String getCustomerName() {
         return customerName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return accountNumber.equals(account.accountNumber) &&
+                customerNumber.equals(account.customerNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountNumber, customerNumber);
     }
 }
